@@ -1,0 +1,16 @@
+# theme.toml template for a Hugo theme
+# See https://github.com/gohugoio/hugoThemes#themetoml for an example
+
+name = "dev.urandom.sh"
+license = "MIT"
+licenselink = "https://github.com/nussjustin/dev.urandom.sh/blob/master/LICENSE"
+description = "Theme for dev.urandom.sh"
+homepage = "https://dev.urandom.sh/"
+tags = []
+features = []
+min_version = "0.41.0"
+
+[author]
+  name = "Justin Nu0"
+  homepage = "https://dev.urandom.sh/"
+

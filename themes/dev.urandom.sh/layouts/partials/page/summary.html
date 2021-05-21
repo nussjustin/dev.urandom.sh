@@ -1,0 +1,17 @@
+<article class="article">
+    <header class="article-header">
+        <time class="article-time" datetime="{{ .Page.Date.Format "2006-01-02T15:04:05-0700"}}">{{ .Page.Date.Format "January 2, 2006" }}</time>
+
+        <h2 class="article-title">
+            <a class="article-title-link" href="{{ .Page.RelPermalink }}" tabindex="{{ add .Index 2 }}">{{ .Page.Title }}</a>
+        </h2>
+    </header>
+
+    <article class="article-content">
+        {{ .Page.Summary }}
+    </article>
+
+    <div class="article-info">
+        <a class="article-info-link" href="{{ .Page.RelPermalink }}" tabindex="-1">Read more</a>
+    </div>
+</article>

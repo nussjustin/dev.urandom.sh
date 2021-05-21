@@ -1,0 +1,10 @@
+baseURL = "https://dev.urandom.sh/"
+languageCode = "en-us"
+title = "dev.urandom.sh"
+theme = "dev.urandom.sh"
+disableKinds = ["taxonomy", "term"]
+[permalinks]
+  posts = "/posts/:year/:month/:day/:title/"
+[markup.highlight]
+  lineNos = true
+  style = "nord"

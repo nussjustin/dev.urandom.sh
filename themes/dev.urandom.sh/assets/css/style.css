@@ -1,0 +1,112 @@
+body {
+    display: flex;
+    justify-content: center;
+
+    background: #fcfcfc;
+}
+
+main {
+    max-width: 800px;
+
+    font-family: system-ui, sans-serif;
+    font-size: 13pt;
+}
+
+.page-header {
+    margin: 0 10px;
+    
+    padding-top: 20px;
+
+    font-weight: 100;
+    text-align: center;
+}
+
+.page-header-link {
+    color: #000;
+
+    text-decoration: none;
+}
+
+.articles > .article {
+    margin: 10px;
+
+    padding: 10px 0 15px 0;
+
+    border-bottom: 1px solid #231c332e;
+}
+
+.article {
+    margin: 10px 0;
+
+    padding: 10px 10px 15px 10px;
+}
+
+.article-time {
+    font-size: 13px;
+}
+
+.article-title {
+    margin: 0;
+
+    font-size: 24px;
+}
+
+.article-title-link {
+    color: #000;
+    text-decoration: none;
+}
+
+.article-content > table {
+    margin: 25px 0;
+
+    border-collapse: collapse;
+    
+    font-size: 0.9em;
+    font-family: sans-serif;
+
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.article-content > table thead tr {
+    background: #4f5768;
+    color: #ffffff;
+    text-align: left;
+}
+
+.article-content > table th,
+.article-content > table td {
+    padding: 12px 15px;
+}
+
+.article-content > table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.article-content > table tbody tr:nth-of-type(even),
+.article-content > table tbody tr:last-of-type {
+    background: #f3f3f3;
+}
+
+
+.article-info {
+    display: block;
+
+    padding-right: 10px;
+
+    text-align: right;
+}
+
+.article-info-link {
+    font-size: 12pt;
+}
+
+.archive {
+    display: block;
+    text-align: center;
+}
+
+.archive-link {
+    color: #000;
+    font-size: 13pt;
+    text-decoration: none;
+}
