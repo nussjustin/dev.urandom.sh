@@ -1,8 +1,38 @@
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Thanks Dark Reader */
+        --background: #1d1e1f;
+        --link-color: #3282e0;
+        --text-color: #cdcbc8;
+        --table-header-background: #303540;
+        --table-header-color: #cdcbc8;
+        --table-row-even: #212324;
+        --table-row-border: #383b3e;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --background: #fcfcfc;
+        --link-color: #00f;
+        --text-color: #000;
+        --table-header-background: #4f5768;
+        --table-header-color: #fff;
+        --table-row-even: #f3f3f3;
+        --table-row-border: #ddd;
+    }
+}
+
 body {
     display: flex;
     justify-content: center;
 
-    background: #fcfcfc;
+    background: var(--background);
+    color: var(--text-color);
+}
+
+a {
+    color: var(--link-color);
 }
 
 main {
@@ -22,7 +52,7 @@ main {
 }
 
 .page-header-link {
-    color: #000;
+    color: var(--text-color);
 
     text-decoration: none;
 }
@@ -52,11 +82,13 @@ main {
 }
 
 .article-title-link {
-    color: #000;
+    color: var(--text-color);
     text-decoration: none;
 }
 
 .article-content > table {
+    width: 100%;
+
     margin: 25px 0;
 
     border-collapse: collapse;
@@ -64,12 +96,12 @@ main {
     font-size: 0.9em;
     font-family: sans-serif;
 
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--table-row-border);
 }
 
 .article-content > table thead tr {
-    background: #4f5768;
-    color: #ffffff;
+    background: var(--table-header-background);
+    color: var(--table-header-color);
     text-align: left;
 }
 
@@ -79,14 +111,12 @@ main {
 }
 
 .article-content > table tbody tr {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid var(--table-row-border);
 }
 
-.article-content > table tbody tr:nth-of-type(even),
-.article-content > table tbody tr:last-of-type {
-    background: #f3f3f3;
+.article-content > table tbody tr:nth-of-type(even) {
+    background: var(--table-row-even);
 }
-
 
 .article-info {
     display: block;
@@ -106,7 +136,7 @@ main {
 }
 
 .archive-link {
-    color: #000;
+    color: var(--text-color);
     font-size: 13pt;
     text-decoration: none;
 }
