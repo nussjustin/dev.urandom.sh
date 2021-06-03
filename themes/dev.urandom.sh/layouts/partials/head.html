@@ -5,4 +5,5 @@
     {{ $style := resources.Get "css/style.css" | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
     <title>{{ .Page.Title }}</title>
+    <meta name="description" content="{{ if .Params.summary }}{{ .Params.summary }}{{ else if .Site.Params.Description }}{{ .Site.Params.Description }}{{ else }}Random thoughts and experiences from a developers life{{ end }}">
 </head>

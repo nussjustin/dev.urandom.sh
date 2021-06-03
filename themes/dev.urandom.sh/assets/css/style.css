@@ -2,7 +2,7 @@
     :root {
         /* Thanks Dark Reader */
         --background: #1d1e1f;
-        --link-color: #3282e0;
+        --link-color: #5298ea;
         --text-color: #cdcbc8;
         --table-header-background: #303540;
         --table-header-color: #cdcbc8;
@@ -36,7 +36,8 @@ a {
 }
 
 main {
-    max-width: 800px;
+    max-width: 100%;
+    width: 800px;
 
     font-family: system-ui, sans-serif;
     font-size: 13pt;
@@ -84,6 +85,10 @@ main {
 .article-title-link {
     color: var(--text-color);
     text-decoration: none;
+}
+
+.article-content {
+    overflow-x: auto;
 }
 
 .article-content > table {
