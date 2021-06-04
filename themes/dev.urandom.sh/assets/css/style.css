@@ -110,8 +110,7 @@ main {
     text-align: left;
 }
 
-.article-content > table th,
-.article-content > table td {
+.article-content > table :is(th, td) {
     padding: 12px 15px;
 }
 
