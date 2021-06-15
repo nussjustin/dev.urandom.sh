@@ -1,3 +1,13 @@
+:root {
+    --background: #fcfcfc;
+    --link-color: #00f;
+    --text-color: #000;
+    --table-header-background: #4f5768;
+    --table-header-color: #fff;
+    --table-row-even: #f3f3f3;
+    --table-row-border: #ddd;
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         /* Thanks Dark Reader */
@@ -8,18 +18,6 @@
         --table-header-color: #cdcbc8;
         --table-row-even: #212324;
         --table-row-border: #383b3e;
-    }
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        --background: #fcfcfc;
-        --link-color: #00f;
-        --text-color: #000;
-        --table-header-background: #4f5768;
-        --table-header-color: #fff;
-        --table-row-even: #f3f3f3;
-        --table-row-border: #ddd;
     }
 }
 
