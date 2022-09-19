@@ -23,25 +23,23 @@
 
 body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
     background: var(--background);
     color: var(--text-color);
-}
-
-a {
-    color: var(--link-color);
-}
-
-main {
-    max-width: 100%;
-    width: 800px;
 
     font-family: system-ui, sans-serif;
     font-size: 13pt;
 }
 
-.page-header {
+a {
+    color: var(--link-color);
+
+    text-decoration: none;
+}
+
+h1 {
     margin: 0 10px;
     
     padding-top: 20px;
@@ -50,13 +48,28 @@ main {
     text-align: center;
 }
 
-.page-header-link {
-    color: var(--text-color);
-
-    text-decoration: none;
+main {
+    max-width: 100%;
+    width: 800px;
 }
 
-.articles > .article {
+nav {
+    display: block;
+    text-align: center;
+    margin: 10px 0;
+}
+
+:is(h1, main, nav) a {
+    color: var(--text-color);
+}
+
+article {
+    margin: 10px 0;
+
+    padding: 10px 10px 15px 10px;
+}
+
+section > article {
     margin: 10px;
 
     padding: 10px 0 15px 0;
@@ -64,32 +77,34 @@ main {
     border-bottom: 1px solid #231c332e;
 }
 
-.article {
-    margin: 10px 0;
+section > article > section + div {
+    padding-right: 10px;
 
-    padding: 10px 10px 15px 10px;
+    text-align: right;
+
+    font-size: 12pt;
 }
 
-.article-time {
+section > * {
+    overflow-x: auto;
+}
+
+time {
     font-size: 13px;
 }
 
-.article-title {
+h2 {
     margin: 0;
 
     font-size: 24px;
 }
 
-.article-title-link {
+h2 a {
     color: var(--text-color);
     text-decoration: none;
 }
 
-.article-content {
-    overflow-x: auto;
-}
-
-.article-content > table {
+table {
     width: 100%;
 
     margin: 25px 0;
@@ -102,43 +117,20 @@ main {
     border: 1px solid var(--table-row-border);
 }
 
-.article-content > table thead tr {
+table thead tr {
     background: var(--table-header-background);
     color: var(--table-header-color);
     text-align: left;
 }
 
-.article-content > table :is(th, td) {
+table :is(th, td) {
     padding: 12px 15px;
 }
 
-.article-content > table tbody tr {
+table tbody tr {
     border-bottom: 1px solid var(--table-row-border);
 }
 
-.article-content > table tbody tr:nth-of-type(even) {
+table tbody tr:nth-of-type(even) {
     background: var(--table-row-even);
-}
-
-.article-info {
-    display: block;
-
-    padding-right: 10px;
-
-    text-align: right;
-}
-
-.article-info-link {
-    font-size: 12pt;
-}
-
-.archive {
-    display: block;
-    text-align: center;
-}
-
-.archive-link {
-    color: var(--text-color);
-    font-size: 13pt;
-    text-decoration: none;
 }

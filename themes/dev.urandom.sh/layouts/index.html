@@ -1,11 +1,7 @@
 {{ define "main" }}
-    <section class="articles">
+    <section>
         {{ range $index, $page := ( where .Site.Pages.ByPublishDate.Reverse "Kind" "page" | first 5 ) }}
             {{ partial "page/summary.html" (dict "Index" $index "Page" $page) }}
         {{ end }}
     </section>
-
-    <h3 class="archive">
-        <a class="archive-link" href="/posts/">All posts</a>
-    </h3>
 {{ end }}

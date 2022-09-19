@@ -1,17 +1,17 @@
-<article class="article">
-    <header class="article-header">
-        <time class="article-time" datetime="{{ .Page.Date.Format "2006-01-02T15:04:05-0700"}}">{{ .Page.Date.Format "January 2, 2006" }}</time>
+<article>
+    <header>
+        <time datetime="{{ .Page.Date.Format "2006-01-02T15:04:05-0700"}}">{{ .Page.Date.Format "January 2, 2006" }}</time>
 
-        <h2 class="article-title">
-            <a class="article-title-link" href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+        <h2>
+            <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
         </h2>
     </header>
 
-    <article class="article-content">
+    <section>
         {{ .Page.Summary }}
-    </article>
+    </section>
 
-    <div class="article-info">
-        <a class="article-info-link" href="{{ .Page.RelPermalink }}">Read the entire post</a>
+    <div>
+        <a href="{{ .Page.RelPermalink }}">Read the entire post</a>
     </div>
 </article>

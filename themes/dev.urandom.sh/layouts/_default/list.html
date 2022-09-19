@@ -1,5 +1,5 @@
 {{ define "main" }}
-<section class="articles">
+<section>
     {{ range $index, $page := .Pages.ByPublishDate.Reverse }}
         {{ partial "page/summary.html" (dict "Index" $index "Page" $page) }}
     {{ end }}

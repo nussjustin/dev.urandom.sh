@@ -6,5 +6,6 @@ disableKinds = ["taxonomy", "term"]
 [permalinks]
   posts = "/posts/:year/:month/:day/:title/"
 [markup.highlight]
+  noClasses = false
   lineNos = true
-  style = "nord"
+  style = "monokai"
