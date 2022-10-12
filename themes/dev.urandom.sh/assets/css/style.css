@@ -31,6 +31,8 @@ body {
 
     font-family: system-ui, sans-serif;
     font-size: 13pt;
+
+    overflow-y: scroll;
 }
 
 a {
@@ -39,18 +41,48 @@ a {
     text-decoration: none;
 }
 
+h1, h2, h3, h4 {
+    margin: 10px 0;
+}
+
 h1 {
-    margin: 0 10px;
-    
     padding-top: 20px;
 
     font-weight: 100;
     text-align: center;
 }
 
+h2 {
+    font-size: 1.75em;
+}
+
+h2 a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+h4 {
+    font-size: 1.15em;
+}
+
 main {
     max-width: 100%;
-    width: 800px;
+
+    width: 65ch;
+
+    margin-top: 1.5em;
+}
+
+main > * {
+    overflow-x: auto;
+}
+
+main > .highlight {
+    display: flex;
 }
 
 nav {
@@ -64,20 +96,22 @@ nav {
 }
 
 article {
-    margin: 10px 0;
+    margin: 10px 0 0;
 
-    padding: 10px 10px 15px 10px;
-}
-
-section > article {
-    margin: 10px;
-
-    padding: 10px 0 15px 0;
+    padding: 0 0 15px;
 
     border-bottom: 1px solid #231c332e;
 }
 
-section > article > section + div {
+article:first-child {
+    margin-top: 0;
+}
+
+article > * {
+    overflow-x: auto;
+}
+
+article > section + div {
     padding-right: 10px;
 
     text-align: right;
@@ -85,23 +119,14 @@ section > article > section + div {
     font-size: 12pt;
 }
 
-section > * {
-    overflow-x: auto;
+p {
+    margin: 0;
+
+    padding: .75em 0;
 }
 
 time {
     font-size: 13px;
-}
-
-h2 {
-    margin: 0;
-
-    font-size: 24px;
-}
-
-h2 a {
-    color: var(--text-color);
-    text-decoration: none;
 }
 
 table {

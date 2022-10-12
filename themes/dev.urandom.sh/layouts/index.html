@@ -1,7 +1,5 @@
 {{ define "main" }}
-    <section>
-        {{ range $index, $page := ( where .Site.Pages.ByPublishDate.Reverse "Kind" "page" | first 5 ) }}
-            {{ partial "page/summary.html" (dict "Index" $index "Page" $page) }}
-        {{ end }}
-    </section>
+    {{ range $index, $page := ( where .Site.Pages.ByPublishDate.Reverse "Kind" "page" | first 5 ) }}
+        {{ partial "page/summary.html" (dict "Index" $index "Page" $page) }}
+    {{ end }}
 {{ end }}
