@@ -54,7 +54,7 @@ a {
 }
 
 h1, h2, h3, h4 {
-    margin: 0 0 10px;
+    margin: .5em 0 0;
 }
 
 h1 {
@@ -87,13 +87,17 @@ main > .highlight {
     display: flex;
 }
 
+main > .highlight > * {
+    flex-grow: 1;
+}
+
 nav {
     display: block;
     text-align: center;
     margin: 10px 0;
 }
 
-:is(h1, h2, main, nav) a {
+:is(h1, h2, main, nav, footer) > a {
     color: var(--text-color);
 }
 
@@ -130,7 +134,11 @@ article > footer {
 p {
     margin: 0;
 
-    padding: .75em 0;
+    padding: .5em 0;
+}
+
+pre {
+    margin: .5em 0;
 }
 
 time {
@@ -140,7 +148,7 @@ time {
 table {
     width: 100%;
 
-    margin: 25px 0;
+    margin: 0;
 
     border-collapse: collapse;
     
@@ -166,4 +174,12 @@ table tbody tr {
 
 table tbody tr:nth-of-type(even) {
     background: var(--table-row-even);
+}
+
+.chroma {
+    margin: .5em 0;
+}
+
+.chroma .lntable .lntd:first-child {
+    width: 25px;
 }
