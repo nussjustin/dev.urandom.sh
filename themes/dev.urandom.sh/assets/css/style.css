@@ -35,6 +35,18 @@ body {
     overflow-y: scroll;
 }
 
+body > header {
+    padding-top: 20px;
+
+    font-size: 2em;
+    font-weight: 100;
+    text-align: center;
+}
+
+body > header > a {
+    color: var(--text-color);
+}
+
 a {
     color: var(--link-color);
 
@@ -42,31 +54,21 @@ a {
 }
 
 h1, h2, h3, h4 {
-    margin: 10px 0;
+    margin: 0 0 10px;
 }
 
 h1 {
-    padding-top: 20px;
+    margin: 0.25em 0 0;
 
-    font-weight: 100;
-    text-align: center;
-}
-
-h2 {
-    font-size: 1.75em;
-}
-
-h2 a {
-    color: var(--text-color);
-    text-decoration: none;
-}
-
-h3 {
     font-size: 1.5em;
 }
 
-h4 {
-    font-size: 1.15em;
+h2 {
+    font-size: 1.35em;
+}
+
+h3 {
+    font-size: 1.2em;
 }
 
 main {
@@ -91,7 +93,7 @@ nav {
     margin: 10px 0;
 }
 
-:is(h1, main, nav) a {
+:is(h1, h2, main, nav) a {
     color: var(--text-color);
 }
 
@@ -111,7 +113,13 @@ article > * {
     overflow-x: auto;
 }
 
-article > section + div {
+article > header > h2 {
+    margin: 0.25em 0 0;
+
+    font-size: 1.5em;
+}
+
+article > footer {
     padding-right: 10px;
 
     text-align: right;
