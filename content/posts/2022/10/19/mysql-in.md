@@ -7,9 +7,9 @@ draft: true
 Filtering a column on a list of values in MySQL can be cumbersome, often
 requiring the user to dynamically create queries at runtime using `IN (...)`.
 
-In this post I will explain my problem with this approach, how other SQL
-databases solve this and how you can (ab)use JSON support in MySQL to solve
-this problem.
+In this post we will discuss the problem at hand, look at how other SQL
+databases solve this and how you can (ab)use JSON support in MySQL to avoid
+this problem in MySQL.
 
 <!--more-->
 
@@ -79,7 +79,7 @@ Or for PostgreSQL
 SELECT * FROM products WHERE id IN ($1, $2, $3, $4, $5)
 ```
 
-Unlinke MySQL which uses _?_ for placeholders, in PostgreSQL placeholders are
+Unlike MySQL which uses _?_ for placeholders, in PostgreSQL placeholders are
 specified in the form _$N_ where _N_ is the 1-based index of the parameter that
 will be passed to the query.
 
@@ -89,8 +89,9 @@ Now let's do the same thing with the second (PostgreSQL only) query.
 SELECT * FROM products WHERE id = ANY($1)
 ```
 
-Looking at the query we can see the true advantage to using arrays: Arrays are
-first-class citizens in PostgreSQL and can be passed as a **single** parameter.
+Looking at the query we immediately see the advantage to using arrays: Arrays
+are first-class citizens in PostgreSQL and can be passed as a **single**
+parameter.
 
 When using `IN (...)` each value needs its own placeholder which, as discussed
 before, requires creating the query dynamically based on the number of
@@ -101,11 +102,11 @@ create and prepare a single statement which we can use for all executions, no
 matter how many values we have to filter on.
 
 This can make a big difference in performance. And as an added bonus, this also
-handles empty lists correctly, where as writing `IN ()` would be a syntax error
+handles empty lists correctly, whereas writing `IN ()` would be a syntax error
 and thus needs to be handled manually in the client.
 
 Unfortunately since MySQL does not have support for arrays, we have to find
-another way to improve our lifes.
+another way to improve our lives.
 
 ## JSON to the rescue?
 
@@ -158,19 +159,7 @@ reuse) a single query / prepared statement!
 Also like native arrays this correctly handles the case where we have an
 empty list!
 
-Unfortunately there is a "small" problem: It doesn't work.
-
-The `MEMBER OF ()` operator expects the left operand to be a JSON value and
-will not match anything if the value has any other type.
-
-So in order for this to work we would need to cast our ID to JSON like this:
-
-```sql
-SELECT * FROM products WHERE CAST(id AS JSON) MEMBER OF (?)
-```
-
-This will give us exactly what we want, except that we now have to pay a
-large price: Performance.
+Unfortunately there is a small problem with our query: It is slow.
 
 ### Performance
 
@@ -182,27 +171,20 @@ The query plan for the previous query looks like this:
 | SIMPLE       | null | ALL            | null | null | Using where |
 {{</table>}}
 
-I omitted the uninteresting fields.
+I omitted the uninteresting fields from the output.
 
 We can see that MySQL plans to do a full table scan even though the ID is the
-primary key for this table. The reason is that we had to CAST the the ID which
-prevents the use of any indices.
+primary key for this table.
 
-Normally in a situation like this we could try using a functional index to
-automatically speed up our query without having to add new columns.
+As of MySQL 8.0.31 the `MEMBER OF ()` operator does not use indexes even when
+using an indexed field as the left hand value (except when using multi-valued
+indexes).
 
-Unfortunately MySQL does not support JSON values in functional indexes.
+While this may be acceptable for some tiny tables, this will not be practical
+for the majority of all tables.
 
-Instead we could try defining a virtual column, except that auto-increment
-columns can not be used in generated columns.
-
-Also even if this was possible it would still mean modifying the table which is
-something that I wanted to avoid. Additionally this also required adding a new
-index which would require extra storage space and add some overhead when changing
-data in the table.
-
-Considering all of this it seems like `MEMBER OF ()` is not what we want, but
-there is another way to use JSON in order to get what we want.
+Fortunately for us, there is another way to use JSON that does not suffer from
+the same problem.
 
 ## Second idea: Using JSON_TABLE
 
@@ -227,7 +209,7 @@ Let's assume that we have the following JSON:
 ]
 ```
 
-Using `JSON_TABLE` we can directly query this JSON:.
+Using `JSON_TABLE` we can query the JSON like a normal table:
 
 ```sql
 SELECT * FROM JSON_TABLE(
@@ -255,11 +237,11 @@ for more information on `JSON_TABLE`.
 
 Now let's see how we can apply this to our problem.
 
-### Using a subselect
+### Using a sub-select
 
-Instead of using `IN (...)` with fixed values it is possible to put a subselect
-into the `IN (...)` andy using `JSON_TABLE` we can directly filter for the
-values from our JSON.
+Instead of using `IN (...)` with fixed values it is possible to put a
+sub-select into the `IN (...)` andy using `JSON_TABLE` we can directly filter
+for the values from our JSON.
 
 ```sql
 SELECT *
@@ -287,12 +269,12 @@ the index of the ID as expected.
 | MATERIALIZED | ids               | ALL     | null    | 2    | Table function: json\_table; Using temporary |
 {{</table>}}
 
-Fortunately there there is another way to use `JSON_TABLE` that is
-in my opinion more readable and works for most cases where `IN (...)` is used.
+Fortunately there is another way to use `JSON_TABLE` that is more readable and
+works for most cases where `IN (...)` is used.
 
 ### Using a JOIN on the JSON table
 
-Instead of using a subselect it is also possible to `JOIN` on the result of
+Instead of using a sub-select it is also possible to `JOIN` on the result of
 `JSON_TABLE` just like any other table which.
 
 ```sql
@@ -333,15 +315,15 @@ tool, 20 runs per query).
 This is the result:
 
 {{<table>}}
-| Type      | Milliseconds per 2500 executions |
-| --------- | -------------------------------- |
-| Fixed     | 204                              |
-| Subselect | 315                              |
-| JOIN      | 240                              |
+| Type       | Milliseconds per 2500 executions |
+| ---------- | -------------------------------- |
+| Fixed      | 204                              |
+| Sub-select | 315                              |
+| JOIN       | 240                              |
 {{</table>}}
 
 As you can see there is some overhead to using `JSON_TABLE` plus some more
-overhead when using a subselect. Between the fixed `IN (...)` and a JOIN we
+overhead when using a sub-select. Between the fixed `IN (...)` and a JOIN we
 have ~36ms. This is again for 2500 queries. If we divide the number by the
 number of query executions we get an overhead of around 15us per query, which
 is basically nothing.
@@ -355,7 +337,7 @@ Using a `JOIN` instead of `IN (...)` has some other advantages.
 Our example used an array of scalar values for our JSON array, but `JSON_TABLE`
 can work with any valid JSON. This allows for more complex joins.
 
-Lets use this JSON again:
+Let's use this JSON again:
 
 ```json
 [
@@ -387,13 +369,15 @@ INNER JOIN JSON_TABLE(
 ```
 
 This filters on 2 columns instead of only one. We could also get more creative
-anduse other operators than `=` but this shall suffice as an example.
+and use other operators than `=` but this shall suffice as an example.
 
 Note that this example could also be written without JSON and using `IN (...)`
 with tuples like this:
 
 ```sql
-(first_name, last_name) IN (('Jane', 'Doe'), ('John', 'Doe'))
+SELECT *
+FROM persons
+WHERE (first_name, last_name) IN (('Jane', 'Doe'), ('John', 'Doe'))
 ```
 
 But again we have the problem that we need to generate a query for each set of
@@ -411,24 +395,27 @@ returned in the same order as the values in the list?
 `JSON_TABLE` offers a neat little feature that can help achieve this. The
 feature is called `FOR ORDINALITY`.
 
-Defining a columns as `FOR ORDINALITY` means that the column will contain the
-0-based index of the value in the JSON array. This can then be used to sort
-by the index.
+Defining a column as `FOR ORDINALITY` means that the column will contain the
+0-based index of the value in the JSON array which can then be used to sort
+by the position of the values in the array.
 
 Here is an example:
 
 ```sql
 SELECT *
 FROM products
-INNER JOIN JSON_TABLE('[1,3,5]', '$[*]' COLUMNS (
-    ord FOR ORDINALITY,
-    id INT PATH '$'
-)) AS t ON t.id = products.id
+INNER JOIN JSON_TABLE(
+    '[1,3,5]',
+    '$[*]' COLUMNS (
+        ord FOR ORDINALITY,
+        id INT PATH '$'
+    )
+) AS t ON t.id = products.id
 ORDER BY t.ord
 ```
 
 This will ensure that the products are always returned in the given order (in
-this case frst 1, then 3 and then 5).
+this case first 1, then 3 and then 5).
 
 ### Disadvantages
 
@@ -502,5 +489,4 @@ And while you are at it, please also add support for
 [RETURNING](https://www.postgresql.org/docs/current/dml-returning.html), and
 [partial indexes](https://www.postgresql.org/docs/current/indexes-partial.html).
 
-Until then, the best solution (at least in my opinion) is using `JSON_TABLE`.
-
+Oh, and maybe teach MySQL to optimize `MEMBER OF ()` checks with indexed fields.
