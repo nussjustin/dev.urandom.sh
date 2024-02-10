@@ -33,18 +33,18 @@ body {
     font-size: 13pt;
 
     overflow-y: scroll;
-}
 
-body > header {
-    padding-top: 20px;
+    > header {
+        padding-top: 20px;
 
-    font-size: 2em;
-    font-weight: 100;
-    text-align: center;
-}
+        font-size: 2em;
+        font-weight: 100;
+        text-align: center;
 
-body > header > a {
-    color: var(--text-color);
+        > a {
+            color: var(--text-color);
+        }
+    }
 }
 
 a {
@@ -77,18 +77,18 @@ main {
     width: 65ch;
 
     margin-top: 1.5em;
-}
 
-main > * {
-    overflow-x: auto;
-}
+    > * {
+        overflow-x: auto;
+    }
 
-main > .highlight {
-    display: flex;
-}
+    > .highlight {
+        display: flex;
 
-main > .highlight > * {
-    flex-grow: 1;
+        > * {
+            flex-grow: 1;
+        }
+    }
 }
 
 nav {
@@ -107,28 +107,28 @@ article {
     padding: 0 0 15px;
 
     border-bottom: 1px solid #231c332e;
-}
 
-article:first-child {
-    margin-top: 0;
-}
+    &:first-child {
+        margin-top: 0;
+    }
 
-article > * {
-    overflow-x: auto;
-}
+    > * {
+        overflow-x: auto;
+    }
 
-article > header > h2 {
-    margin: 0.25em 0 0;
+    > header > h2 {
+        margin: 0.25em 0 0;
 
-    font-size: 1.5em;
-}
+        font-size: 1.5em;
+    }
 
-article > footer {
-    padding-right: 10px;
+    > footer {
+        padding-right: 10px;
 
-    text-align: right;
+        text-align: right;
 
-    font-size: 12pt;
+        font-size: 12pt;
+    }
 }
 
 p {
@@ -151,35 +151,39 @@ table {
     margin: 0;
 
     border-collapse: collapse;
-    
+
     font-size: 0.9em;
     font-family: sans-serif;
 
     border: 1px solid var(--table-row-border);
-}
 
-table thead tr {
-    background: var(--table-header-background);
-    color: var(--table-header-color);
-    text-align: left;
-}
+    thead tr {
+        background: var(--table-header-background);
+        color: var(--table-header-color);
+        text-align: left;
+    }
 
-table :is(th, td) {
-    padding: 12px 15px;
-}
+    tbody tr {
+        border-bottom: 1px solid var(--table-row-border);
 
-table tbody tr {
-    border-bottom: 1px solid var(--table-row-border);
-}
+        &:nth-of-type(even) {
+            background: var(--table-row-even);
+        }
+    }
 
-table tbody tr:nth-of-type(even) {
-    background: var(--table-row-even);
+    tbody tr:nth-of-type(even) {
+        background: var(--table-row-even);
+    }
+
+    :is(th, td) {
+        padding: 12px 15px;
+    }
 }
 
 .chroma {
     margin: .5em 0;
-}
 
-.chroma .lntable .lntd:first-child {
-    width: 25px;
+    .lntable .lntd:first-child {
+        width: 25px;
+    }
 }
